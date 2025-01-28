@@ -1,15 +1,27 @@
 <div>
-    <div>
-        Hello, {{$name}}
-    </div>
     <form
-        wire:submit="changeName(document.querySelector('#newName').value)"
+        wire:submit="changeGreeting()"
     >
         <div class="mt-2">
-            <input
-                id="newName"
+            <select
                 type="text"
-                class="block w-full border p-4 rounded-md bg-gray-700">
+                class="border p-4 rounded-md bg-gray-700"
+                wire:model.fill="greeting"
+            >
+                @foreach($greetings as $item)
+                    <option value="{{$item->greeting}}">{{$item->greeting}}</option>
+                @endforeach
+            </select>
+            <input
+                type="text"
+                class="border p-4 rounded-md bg-gray-700"
+                wire:model="name"
+            >
+        </div>
+        <div>
+            @error('name')
+            {{$message}}
+            @enderror
         </div>
         <div class="mt-2">
             <button
@@ -19,4 +31,9 @@
             </button>
         </div>
     </form>
+    @if($greetingMessage!=='')
+        <div class="mt-5">
+            {{$greetingMessage}}
+        </div>
+    @endif
 </div>
